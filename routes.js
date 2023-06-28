@@ -6,5 +6,6 @@ const controller = require("./controller");
 router.get("/users", controller.getAllUsers);
 router.post("/users", controller.createUser);
 router.put("/users/:name/attendance", controller.updateUserAttendance);
+router.get("/products", controller.getAllProducts);
 
 module.exports = router;
