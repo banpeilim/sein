@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
+const serveIndex = require("serve-index");
 
 const app = express();
 
@@ -28,6 +29,12 @@ app.use(bodyParser.json());
 // Routes
 const routes = require("./routes");
 app.use("/api", routes);
+
+app.use(
+  "/files",
+  express.static("public/files"),
+  serveIndex("public/files", { icons: true })
+);
 
 // Server
 const PORT = process.env.PORT || 3000;
