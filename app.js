@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 const serveIndex = require("serve-index");
+const multer = require("multer");
 
 const app = express();
 
@@ -35,6 +36,30 @@ app.use(
   express.static("public/files"),
   serveIndex("public/files", { icons: true })
 );
+
+app.use("/pages/index", express.static("pages/index.html"));
+
+const storage = multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, __dirname + "/public/files");
+  },
+  // Sets file(s) to be saved in uploads folder in same directory
+  filename: function (req, file, callback) {
+    callback(null, file.originalname);
+  },
+  // Sets saved filename(s) to be original filename(s)
+});
+
+// Set saved storage options:
+const upload = multer({ storage: storage });
+
+app.post("/upload_api", upload.array("files"), (req, res) => {
+  // Sets multer to intercept files named "files" on uploaded form data
+
+  console.log(req.body); // Logs form body values
+  console.log(req.files); // Logs any files
+  res.json({ message: "File(s) uploaded successfully" });
+});
 
 // Server
 const PORT = process.env.PORT || 3000;
