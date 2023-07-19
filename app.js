@@ -6,6 +6,9 @@ require("dotenv").config();
 const serveIndex = require("serve-index");
 const multer = require("multer");
 
+const fs = require("fs");
+const path = require("path");
+
 const app = express();
 
 app.use(cors());
@@ -59,6 +62,30 @@ app.post("/upload_api", upload.array("files"), (req, res) => {
   console.log(req.body); // Logs form body values
   console.log(req.files); // Logs any files
   res.json({ message: "File(s) uploaded successfully" });
+});
+
+app.delete("/delete_file/:filename", (req, res) => {
+  const filename = req.params.filename;
+  const filePath = path.join(__dirname, "public/files", filename);
+
+  // Check if the file exists
+  fs.access(filePath, fs.constants.F_OK, (err) => {
+    if (err) {
+      console.error("File does not exist:", err);
+      return res.status(404).json({ message: "File not found" });
+    }
+
+    // Delete the file
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        console.error("Failed to delete file:", err);
+        return res.status(500).json({ message: "Failed to delete file" });
+      }
+
+      console.log("File deleted successfully");
+      res.json({ message: "File deleted successfully" });
+    });
+  });
 });
 
 // Server
