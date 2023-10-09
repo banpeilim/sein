@@ -1,4 +1,4 @@
-const { User, Product } = require("./model");
+const { User, Product, Attendee } = require("./model");
 
 // Controller functions
 exports.getAllUsers = async (req, res) => {
@@ -19,6 +19,18 @@ exports.createUser = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+
+exports.createAttendee = async (req, res) => {
+  try {
+    const attendee = new Attendee(req.body);
+    await attendee.save();
+    res.status(201).json(attendee);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 
 exports.updateUserAttendance = async (req, res) => {
   try {
