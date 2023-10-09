@@ -8,5 +8,6 @@ router.post("/users", controller.createUser);
 router.put("/users/:name/attendance", controller.updateUserAttendance);
 router.get("/products", controller.getAllProducts);
 router.post("/attendee", controller.createAttendee);
+router.post("/company", controller.createCompany);
 
 module.exports = router;
