@@ -78,3 +78,12 @@ exports.getAllCompany = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getAllAttendee = async (req, res) => {
+  try {
+    const attendee = await Attendee.find();
+    res.status(200).json(attendee);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
