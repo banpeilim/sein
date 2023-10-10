@@ -20,7 +20,6 @@ exports.createUser = async (req, res) => {
   }
 };
 
-
 exports.createAttendee = async (req, res) => {
   try {
     const attendee = new Attendee(req.body);
@@ -40,7 +39,6 @@ exports.createCompany = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
 
 exports.updateUserAttendance = async (req, res) => {
   try {
@@ -67,6 +65,15 @@ exports.getAllProducts = async (req, res) => {
   try {
     const products = await Product.find();
     res.status(200).json(products);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getAllCompany = async (req, res) => {
+  try {
+    const company = await Company.find();
+    res.status(200).json(company);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

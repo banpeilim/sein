@@ -9,5 +9,6 @@ router.put("/users/:name/attendance", controller.updateUserAttendance);
 router.get("/products", controller.getAllProducts);
 router.post("/attendee", controller.createAttendee);
 router.post("/company", controller.createCompany);
+router.get("/company", controller.getAllCompany);
 
 module.exports = router;
