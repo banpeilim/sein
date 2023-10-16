@@ -11,5 +11,7 @@ router.post("/attendee", controller.createAttendee);
 router.get("/attendee", controller.getAllAttendee);
 router.post("/company", controller.createCompany);
 router.get("/company", controller.getAllCompany);
+router.post("/companylist", controller.createCompanyList);
+router.get("/companylist", controller.getAllCompanyList);
 
 module.exports = router;
