@@ -1,20 +1,12 @@
-const { User, Product, Attendee, Company, Companylist } = require("./model");
+const { Attendee, Registration } = require("./model");
+const axios = require("axios");
 
-// Controller functions
-exports.getAllUsers = async (req, res) => {
-  try {
-    const users = await User.find();
-    res.status(200).json(users);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
 
-exports.createUser = async (req, res) => {
+exports.createRegistration = async (req, res) => {
   try {
-    const user = new User(req.body);
-    await user.save();
-    res.status(201).json(user);
+    const registration = new Registration(req.body);
+    await registration.save();
+    res.status(201).json(registration);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -30,50 +22,10 @@ exports.createAttendee = async (req, res) => {
   }
 };
 
-exports.createCompany = async (req, res) => {
+exports.getAllRegistration = async (req, res) => {
   try {
-    const company = new Company(req.body);
-    await company.save();
-    res.status(201).json(company);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-exports.updateUserAttendance = async (req, res) => {
-  try {
-    const userName = req.params.name;
-
-    // Update the user's attendance boolean to true
-    const user = await User.findOneAndUpdate(
-      { name: userName },
-      { $set: { attendance: true } },
-      { new: true }
-    );
-
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    res.status(200).json(user);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-exports.getAllProducts = async (req, res) => {
-  try {
-    const products = await Product.find();
-    res.status(200).json(products);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-exports.getAllCompany = async (req, res) => {
-  try {
-    const company = await Company.find();
-    res.status(200).json(company);
+    const registration = await Registration.find();
+    res.status(200).json(registration);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -88,21 +40,24 @@ exports.getAllAttendee = async (req, res) => {
   }
 };
 
-exports.createCompanyList = async (req, res) => {
-  try {
-    const companylist = new Companylist(req.body);
-    await companylist.save();
-    res.status(201).json(companylist);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
+exports.getSingleRegistration = async (req, res) => {
+  const API_URL =
+    "http://noderserver-cny-env.eba-jxdaadr2.ap-southeast-1.elasticbeanstalk.com/api/registration";
 
-exports.getAllCompanyList = async (req, res) => {
   try {
-    const companylist = await Companylist.find();
-    res.status(200).json(companylist);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    const response = await axios.get(API_URL);
+    const data = response.data;
+
+    const desiredUid = req.params.uid;
+    const result = data.find((item) => item.uid === desiredUid);
+
+    if (result) {
+      res.json(result);
+    } else {
+      res.status(404).json({ error: "Data not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching data from the API:", error.message);
+    res.status(500).json({ error: "Internal server error" });
   }
 };

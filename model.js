@@ -1,33 +1,19 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema({
-  name: {
+const registrationSchema = new mongoose.Schema({
+  uid: {
     type: String,
-    required: true,
+    required: false,
   },
-  attendance: {
-    type: Boolean,
-    required: true,
-  },
-});
-
-const productSchema = new mongoose.Schema({
-  name: {
+  person: {
     type: String,
-    required: true,
+    required: false,
   },
-  price: {
-    type: String,
-    required: true,
-  },
-  stock: {
-    type: Number,
-    required: true,
-  },
-});
-
-const attendeeSchema = new mongoose.Schema({
   company: {
+    type: String,
+    required: false,
+  },
+  lucky: {
     type: String,
     required: false,
   },
@@ -35,7 +21,29 @@ const attendeeSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  checkInTime: {
+    type: Date,
+  },
+});
+
+const attendeeSchema = new mongoose.Schema({
+  uid: {
+    type: String,
+    required: false,
+  },
   person: {
+    type: String,
+    required: false,
+  },
+  company: {
+    type: String,
+    required: false,
+  },
+  lucky: {
+    type: String,
+    required: false,
+  },
+  table: {
     type: String,
     required: false,
   },
@@ -45,47 +53,16 @@ const attendeeSchema = new mongoose.Schema({
 });
 
 attendeeSchema.pre("save", function (next) {
-  // Check if 'checkInTime' is not already set
   if (!this.checkInTime) {
-    // Set 'checkInTime' to the current date and time
     this.checkInTime = new Date();
   }
   next();
 });
 
-const companySchema = new mongoose.Schema({
-  company: {
-    type: String,
-    required: false,
-  },
-  table: {
-    type: String,
-    required: false,
-  },
-  person: {
-    type: String,
-    required: false,
-  },
-});
-
-const companylistSchema = new mongoose.Schema({
-  company: {
-    type: String,
-    required: false,
-  },
-});
-
-const User = mongoose.model("User", userSchema);
-const Product = mongoose.model("Product", productSchema);
 const Attendee = mongoose.model("Attendee", attendeeSchema);
-const Company = mongoose.model("Company", companySchema);
-const Companylist = mongoose.model("Companylist", companylistSchema);
-
+const Registration = mongoose.model("Registration", registrationSchema);
 
 module.exports = {
-  User,
-  Product,
   Attendee,
-  Company,
-  Companylist,
+  Registration,
 };
