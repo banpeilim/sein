@@ -74,3 +74,19 @@ exports.deleteRegistration = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+
+exports.deleteAttendee = async (req, res) => {
+  try {
+    const { uid } = req.params;
+    const attendee = await Attendee.findOneAndDelete({ uid });
+
+    if (!attendee) {
+      return res.status(404).json({ error: "Attendee not found" });
+    }
+
+    res.status(200).json({ message: "Attendee deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

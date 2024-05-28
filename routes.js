@@ -9,5 +9,6 @@ router.post("/registration", controller.createRegistration);
 router.get("/registration", controller.getAllRegistration);
 router.get("/attendee/:uid", controller.getSingleRegistration);
 router.delete("/registration/:uid", controller.deleteRegistration);
+router.delete("/attendee/:uid", controller.deleteAttendee);
 
 module.exports = router;
