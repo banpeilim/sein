@@ -1,7 +1,6 @@
 const { Attendee, Registration } = require("./model");
 const axios = require("axios");
 
-
 exports.createRegistration = async (req, res) => {
   try {
     const registration = new Registration(req.body);
@@ -41,8 +40,7 @@ exports.getAllAttendee = async (req, res) => {
 };
 
 exports.getSingleRegistration = async (req, res) => {
-  const API_URL =
-    "http://noderserver-cny-env.eba-jxdaadr2.ap-southeast-1.elasticbeanstalk.com/api/registration";
+  const API_URL = "https://sein-0boe.onrender.com/api/registration";
 
   try {
     const response = await axios.get(API_URL);
