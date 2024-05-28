@@ -59,3 +59,18 @@ exports.getSingleRegistration = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+exports.deleteRegistration = async (req, res) => {
+  try {
+    const { uid } = req.params;
+    const registration = await Registration.findOneAndDelete({ uid });
+
+    if (!registration) {
+      return res.status(404).json({ error: "Registration not found" });
+    }
+
+    res.status(200).json({ message: "Registration deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
